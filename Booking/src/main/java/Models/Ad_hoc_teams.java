@@ -4,13 +4,14 @@ import javax.persistence.*;
 import java.util.*;
 
 /**
- *
+ * A group of random people that meet to form a team and work together to achieve a goal,
+ * in this case, writing a book.
  */
 @Entity
 @DiscriminatorValue("Ad Hoc Teams")
 public class Ad_hoc_teams extends Authoring_entities{
     /**
-     *
+     * The list of individuals that are a part of the team.
      */
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -21,19 +22,22 @@ public class Ad_hoc_teams extends Authoring_entities{
     private List<Individual_author> individualAuthors;
 
     /**
-     *
-     * @param email
-     * @param name
-     * @param individual_authors
+     * The constructor of the Ad_hoc_teams class. Creates an Ad_hoc_teams object.
+     * @param email                 The email of the team.
+     * @param name                  The name of the team.
+     * @param individual_authors    The list of individual authors that are on the team.
      */
     public Ad_hoc_teams(String email, String name, List<Individual_author> individual_authors) {
         super(email, name);
         this.setIndividualAuthors(individual_authors);
     }
 
+    /**
+     * The default constructor of the Ad_hoc_teams class.
+     */
     public Ad_hoc_teams() {
     }
-    
+
     public List<Individual_author> getIndividual_authors() {
         return individualAuthors;
     }
@@ -43,24 +47,24 @@ public class Ad_hoc_teams extends Authoring_entities{
     }
 
     /**
-     *
-     * @param individualAuthor
+     * Adds an individual author to the team.
+     * @param individualAuthor      The individual author that we want to add to the team.
      */
     public void add_individual_authors(Individual_author individualAuthor){
         if(! this.individualAuthors.contains(individualAuthor)){
             this.individualAuthors.add(individualAuthor);
-            individualAuthor.add_ad_hoc_teams(this);
+            individualAuthor.add_team(this);
         }
     }
 
     /**
-     *
-     * @param individual_author
+     * Removes an individual author from the team.
+     * @param individual_author     The individual author that we want to remove from the team.
      */
     public void remove_individual_authors(Individual_author individual_author){
         if(this.individualAuthors.contains(individual_author)){
             this.individualAuthors.remove(individual_author);
-            individual_author.remove_ad_hoc_teams(this);
+            individual_author.remove_team(this);
         }
     }
 

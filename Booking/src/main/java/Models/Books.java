@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class Books {
     /**
-     * A set of numbers that
+     * A unique ID that helps identify a book.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,37 +22,38 @@ public class Books {
     private int ISBN;
 
     /**
-     * The Title of the Book
+     * The title of the book.
      */
     @Column(length = 80, nullable = false)
     private String title;
 
     /**
-     *The Year the Book was published
+     * The year that the book was published.
      */
     @Column(length = 4, nullable = false)
     private int year_published;
 
     /**
-     *
+     * The name of the publisher that published the book.
      */
     @ManyToOne
     @JoinColumn(name = "publisher_name", referencedColumnName = "name")
     private Publishers publisher;
+
     /**
-     *
+     * The name of the authoring entity that wrote the book.
      */
     @OneToOne
     @JoinColumn(name = "authoring_entity_name", referencedColumnName = "name")
     private Authoring_entities authoringEntity;
 
     /**
-     *
-     * @param isbn
-     * @param title
-     * @param yearPublished
-     * @param publisher
-     * @param authoringEntity
+     * The constructor of the Books class. Creates a book object.
+     * @param isbn              The ID of the book;
+     * @param title             The title of the book
+     * @param yearPublished     The year that the book was published.
+     * @param publisher         The publisher of the book.
+     * @param authoringEntity   The authoring entity that wrote the book.
      */
     public Books(int isbn, String title, int yearPublished, Publishers publisher, Authoring_entities authoringEntity) {
         this.setISBN(isbn);
@@ -62,6 +63,9 @@ public class Books {
         this.setAuthoringEntity(authoringEntity);
     }
 
+    /**
+     * The default constructor of the Books class.
+     */
     public Books(){
     }
 

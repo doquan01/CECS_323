@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Authoring_entities {
 
     /**
-     * The email that the authoring entity uses. Limited to 30 characters
+     * The email that the authoring entity uses. Limited to 30 characters.
      */
     @Id
     @Column(length = 30, nullable = false)
@@ -25,15 +25,18 @@ public class Authoring_entities {
     private String name;
 
     /**
-     *
-     * @param email
-     * @param name
+     * The constructor for the Autoring_entities class. Creates an Authoring_entities object.
+     * @param email     The email of the authoring entity.
+     * @param name      The name of the authoring entity.
      */
     public Authoring_entities(String email, String name) {
         this.setEmail(email);
         this.setName(name);
     }
 
+    /**
+     * Default constructor of the Authoring_entities class.
+     */
     public Authoring_entities() {
     }
 

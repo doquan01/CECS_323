@@ -10,35 +10,35 @@ import java.util.Objects;
 @Entity
 public class Publishers {
     /**
-     *
+     * The name of the company or individual that prepares the books for sale. Limited to 80 characters.
      */
     @Id
     @Column(name = "name", nullable = false, length = 80)
     private String name;
 
     /**
-     *
+     * The email of the publisher. Limited to 80 characters.
      */
     @Column(length = 80, nullable = false, unique = true)
     private String email;
 
     /**
-     *
+     * The phone number of the publisher. Limited to 24 characters.
      */
     @Column(length = 24, nullable = false, unique = true)
     private String phone;
 
     /**
-     *
+     * The list of books that the publisher has published.
      */
     @OneToMany(mappedBy = "publisher_name", cascade = CascadeType.PERSIST)
     private List<Books> books;
 
     /**
-     *
-     * @param name
-     * @param email
-     * @param phone
+     * The constructor of the Publishers class. Creates a Publishers object.
+     * @param name      The name of the publisher.
+     * @param email     The email of the publisher.
+     * @param phone     The phone number of the publisher.
      */
     public Publishers(String name, String email, String phone) {
         this.setName(name);
@@ -46,6 +46,9 @@ public class Publishers {
         this.setPhone(phone);
     }
 
+    /**
+     * Default constructor of the Publisher class.
+     */
     public Publishers() {
     }
 
