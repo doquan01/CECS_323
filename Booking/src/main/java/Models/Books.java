@@ -2,6 +2,7 @@ package Models;
 
 import javax.persistence.*;
 
+@Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames =
         {"title", "publisher_name"}),
         @UniqueConstraint(columnNames =
@@ -27,13 +28,11 @@ public class Books {
 
     @ManyToOne
     @JoinColumn(name = "publisher_name", referencedColumnName = "name")
-    @Column(length = 80)
     private Publishers publisher;
 
-    @ManyToOne
-    @JoinColumn(name = "authoring_entity_name", referencedColumnName = "name", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "authoring_entity_name", referencedColumnName = "name")
     private Authoring_entities authoringEntity;
-
 
     public Books(int isbn, String title, int yearPublished, Publishers publisher, Authoring_entities authoringEntity) {
         this.setISBN(isbn);
@@ -88,12 +87,10 @@ public class Books {
 
     @Override
     public String toString() {
-        return "Books{" +
-                "ISBN=" + ISBN +
-                ", title='" + title + '\'' +
-                ", year_published=" + year_published +
-                ", publisher=" + publisher +
-                ", authoringEntity=" + authoringEntity +
-                '}';
+        return "ISBN: " + this.getISBN() +
+                ", title: " + this.getTitle() +
+                ", year_published: " + this.getYear_published() +
+                ", publisher: " + this.getPublisher() +
+                ", authoringEntity: " + this.getAuthoringEntity();
     }
 }

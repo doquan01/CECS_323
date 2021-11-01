@@ -1,11 +1,15 @@
 package Models;
 
+import javax.persistence.Entity;
+
+
 import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Publishers {
     @Id
-    @Column(name = "name", length = 80, nullable = false)
+    @Column(name = "name", nullable = false, length = 80)
     private String name;
 
     @Column(length = 80, nullable = false, unique = true)
@@ -52,10 +56,8 @@ public class Publishers {
 
     @Override
     public String toString() {
-        return "Publishers{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+        return "name: " + this.getName() +
+                ", email: " + this.getEmail() +
+                ", phone: " + this.getPhone();
     }
 }
