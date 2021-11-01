@@ -2,15 +2,12 @@ package Models;
 
 import javax.persistence.*;
 
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames =
+        {"title", "publisher_name"}),
+        @UniqueConstraint(columnNames =
+                {"title", "authoring_entity_name"})})
+
 public class Books {
-//	AUTHORING_ENTITY_NAME VARCHAR(30)
-//		constraint BKSTHRNGENTITYNAME
-//			references AUTHORING_ENTITIES,
-//	PUBLISHER_NAME VARCHAR(80)
-//		constraint BOOKSPUBLISHERNAME
-//			references PUBLISHERS,
-//	unique (TITLE, PUBLISHER_NAME),
-//	unique (TITLE, AUTHORING_ENTITY_NAME)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(length = 17, nullable = false)
@@ -30,87 +27,73 @@ public class Books {
 
     @ManyToOne
     @JoinColumn(name = "publisher_name", referencedColumnName = "name")
+    @Column(length = 80)
     private Publishers publisher;
-}
-
-
 
     @ManyToOne
-    @JoinColumn(name = "authoring_entity_name", referencedColumnName = "name")
-    private AuthoringEntities authoringEntity;
+    @JoinColumn(name = "authoring_entity_name", referencedColumnName = "name", nullable = false)
+    private Authoring_entities authoringEntity;
 
+
+    public Books(int isbn, String title, int yearPublished, Publishers publisher, Authoring_entities authoringEntity) {
+        this.setISBN(isbn);
+        this.setTitle(title);
+        this.setYear_published(yearPublished);
+        this.setPublisher(publisher);
+        this.setAuthoringEntity(authoringEntity);
+    }
 
     public Books(){
     }
 
-    public Books(Long isbn, String title, int yearPublished, Publishers publisher, AuthoringEntities authoringEntity) {
-        this.isbn = isbn;
-        this.title = title;
-        this.yearPublished = yearPublished;
-        this.publisher = publisher;
-        this.authoringEntity = authoringEntity;
+    public int getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(int ISBN) {
+        this.ISBN = ISBN;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public int getYearPublished() {
-        return yearPublished;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getYear_published() {
+        return year_published;
+    }
+
+    public void setYear_published(int year_published) {
+        this.year_published = year_published;
     }
 
     public Publishers getPublisher() {
         return publisher;
     }
 
-    public AuthoringEntities getAuthoringEntity() {
-        return authoringEntity;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setYearPublished(int yearPublished) {
-        this.yearPublished = yearPublished;
-    }
-    public Long getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(Long isbn) {
-        this.isbn = isbn;
-    }
-
     public void setPublisher(Publishers publisher) {
         this.publisher = publisher;
     }
 
-    public void setAuthoringEntity(AuthoringEntities authoringEntity) {
+    public Authoring_entities getAuthoringEntity() {
+        return authoringEntity;
+    }
+
+    public void setAuthoringEntity(Authoring_entities authoringEntity) {
         this.authoringEntity = authoringEntity;
     }
 
     @Override
     public String toString() {
         return "Books{" +
-                "isbn=" + isbn +
+                "ISBN=" + ISBN +
                 ", title='" + title + '\'' +
-                ", yearPublished=" + yearPublished +
+                ", year_published=" + year_published +
                 ", publisher=" + publisher +
                 ", authoringEntity=" + authoringEntity +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Books books = (Books) o;
-        return yearPublished == books.yearPublished && isbn.equals(books.isbn) && title.equals(books.title) && publisher.equals(books.publisher) && authoringEntity.equals(books.authoringEntity);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(isbn, title, yearPublished, publisher, authoringEntity);
-    }
-} //End of Books Class
+}
