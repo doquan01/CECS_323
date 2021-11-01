@@ -1,27 +1,45 @@
 package Models;
 
-import javax.persistence.Entity;
-
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A person or company that prepares and issues the books for sale.
+ */
 @Entity
 public class Publishers {
+    /**
+     *
+     */
     @Id
     @Column(name = "name", nullable = false, length = 80)
     private String name;
 
+    /**
+     *
+     */
     @Column(length = 80, nullable = false, unique = true)
     private String email;
 
+    /**
+     *
+     */
     @Column(length = 24, nullable = false, unique = true)
     private String phone;
 
+    /**
+     *
+     */
     @OneToMany(mappedBy = "publisher_name", cascade = CascadeType.PERSIST)
     private List<Books> books;
 
+    /**
+     *
+     * @param name
+     * @param email
+     * @param phone
+     */
     public Publishers(String name, String email, String phone) {
         this.setName(name);
         this.setEmail(email);

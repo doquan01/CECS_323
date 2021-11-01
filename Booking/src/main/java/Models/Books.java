@@ -33,14 +33,27 @@ public class Books {
     @Column(length = 4, nullable = false)
     private int year_published;
 
+    /**
+     *
+     */
     @ManyToOne
     @JoinColumn(name = "publisher_name", referencedColumnName = "name")
     private Publishers publisher;
-
+    /**
+     *
+     */
     @OneToOne
     @JoinColumn(name = "authoring_entity_name", referencedColumnName = "name")
     private Authoring_entities authoringEntity;
 
+    /**
+     *
+     * @param isbn
+     * @param title
+     * @param yearPublished
+     * @param publisher
+     * @param authoringEntity
+     */
     public Books(int isbn, String title, int yearPublished, Publishers publisher, Authoring_entities authoringEntity) {
         this.setISBN(isbn);
         this.setTitle(title);

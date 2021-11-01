@@ -24,6 +24,11 @@ public class Authoring_entities {
     @Column(length = 80, nullable = false)
     private String name;
 
+    /**
+     *
+     * @param email
+     * @param name
+     */
     public Authoring_entities(String email, String name) {
         this.setEmail(email);
         this.setName(name);

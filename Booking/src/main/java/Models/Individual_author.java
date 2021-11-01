@@ -3,17 +3,28 @@ package Models;
 import javax.persistence.*;
 import java.util.*;
 
+/**
+ *
+ */
 @Entity
 @DiscriminatorValue("Individual Authors")
 public class Individual_author extends Authoring_entities{
-
+    /**
+     *
+     */
     @ManyToMany(mappedBy = "individual_authors",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Ad_hoc_teams> ad_hoc_teams;
 
+    /**
+     *
+     * @param email
+     * @param name
+     * @param ad_hoc_teams
+     */
     public Individual_author(String email, String name, List<Ad_hoc_teams> ad_hoc_teams) {
         super(email, name);
-        this.ad_hoc_teams = new ArrayList<Ad_hoc_teams>();
+        this.setAd_hoc_teams(ad_hoc_teams);
     }
 
     public Individual_author() {
@@ -27,6 +38,10 @@ public class Individual_author extends Authoring_entities{
         this.ad_hoc_teams = ad_hoc_teams;
     }
 
+    /**
+     *
+     * @param team
+     */
     public void add_ad_hoc_teams (Ad_hoc_teams team){
         if(! this.ad_hoc_teams.contains(team)){
             this.ad_hoc_teams.add(team);
@@ -34,6 +49,10 @@ public class Individual_author extends Authoring_entities{
         }
     }
 
+    /**
+     *
+     * @param team
+     */
     public void remove_ad_hoc_teams (Ad_hoc_teams team){
         if(this.ad_hoc_teams.contains(team)){
             this.ad_hoc_teams.remove(team);
