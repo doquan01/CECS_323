@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Publishers {
@@ -59,5 +60,13 @@ public class Publishers {
         return "name: " + this.getName() +
                 ", email: " + this.getEmail() +
                 ", phone: " + this.getPhone();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Publishers that = (Publishers) o;
+        return Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(phone, that.phone) && Objects.equals(books, that.books);
     }
 }

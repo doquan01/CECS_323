@@ -1,33 +1,32 @@
 package Models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
+/**
+ * The individual or group that is responsible for creating a book.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "authoring_entity_type", discriminatorType = DiscriminatorType.STRING)
 public class Authoring_entities {
 
+    /**
+     * The email that the authoring entity uses. Limited to 30 characters
+     */
     @Id
     @Column(length = 30, nullable = false)
     private String email;
 
-//    @Column(length = 31, nullable = false)
-//    private String authoring_entity_type;
-
+    /**
+     * The name of the authoring enitity. Limited to 80 characters.
+     */
     @Column(length = 80, nullable = false)
     private String name;
-
-//    @Column(length = 80, nullable = false)
-//    private String head_writer;
-//
-//    @Column(length = 4, nullable = false)
-//    private int year_formed;
 
     public Authoring_entities(String email, String name) {
         this.setEmail(email);
         this.setName(name);
-//        this.setHeadWriter(head_writer);
-//        this.setYearFormed(year_formed);
     }
 
     public Authoring_entities() {
@@ -41,14 +40,6 @@ public class Authoring_entities {
         this.email = email;
     }
 
-//    public String getAuthoring_entity_type() {
-//        return authoring_entity_type;
-//    }
-//
-//    public void setAuthoring_entity_type(String authoring_entity_type) {
-//        this.authoring_entity_type = authoring_entity_type;
-//    }
-
     public String getName() {
         return name;
     }
@@ -57,27 +48,19 @@ public class Authoring_entities {
         this.name = name;
     }
 
-//    public String getHeadWriter() {
-//        return head_writer;
-//    }
-//
-//    public void setHeadWriter(String headWriter) {
-//        this.head_writer = headWriter;
-//    }
-//
-//    public int getYearFormed() {
-//        return year_formed;
-//    }
-//
-//    public void setYearFormed(int yearFormed) {
-//        this.year_formed = yearFormed;
-//    }
-
     @Override
     public String toString() {
         return "Authoring Email: " + this.getEmail() +
                 " Name: " + this.getName();
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Authoring_entities that = (Authoring_entities) o;
+        return Objects.equals(email, that.email) && Objects.equals(name, that.name);
     }
 }
 

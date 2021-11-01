@@ -1,7 +1,11 @@
 package Models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
+/**
+ * A physical object that contains written or printed literary work.
+ */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames =
         {"title", "publisher_name"}),
@@ -9,6 +13,9 @@ import javax.persistence.*;
                 {"title", "authoring_entity_name"})})
 
 public class Books {
+    /**
+     * A set of numbers that
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(length = 17, nullable = false)
@@ -92,5 +99,13 @@ public class Books {
                 ", year_published: " + this.getYear_published() +
                 ", publisher: " + this.getPublisher() +
                 ", authoringEntity: " + this.getAuthoringEntity();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Books books = (Books) o;
+        return ISBN == books.ISBN && year_published == books.year_published && Objects.equals(title, books.title) && Objects.equals(publisher, books.publisher) && Objects.equals(authoringEntity, books.authoringEntity);
     }
 }
