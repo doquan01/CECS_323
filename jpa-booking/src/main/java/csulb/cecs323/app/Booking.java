@@ -50,10 +50,6 @@ public class Booking {
       // Create an instance of Books
       Booking booking = new Booking(manager);
 
-
-
-
-
       LOGGER.fine("Begin of Transaction");
       EntityTransaction tx = manager.getTransaction();
 
@@ -100,6 +96,8 @@ public class Booking {
                 * Individual Author
                 * Ad Hoc Team
                 * An Individual Author to an existing Ad Hoc Team
+                * Publisher
+                * Book
                 */
                booking.addObject();
                break;
@@ -134,7 +132,7 @@ public class Booking {
                 * Books (show the title and ISBN)
                 * Authoring Entities (also show type of authoring entity)
                 */
-               booking.listPrimaryKeys(factory, publishers, books, booking);
+               booking.listPrimaryKeys(factory, booking);
                break;
             case 6:
                //Exit
@@ -152,6 +150,10 @@ public class Booking {
 
    }//End of main method
 
+   /**
+    * The main menu that will prompt the user to interact with the program.
+    * @return     A numeric choice that the user selected.
+    */
    public static int menu() {
       System.out.print("\nMenu:\n" +
               "1: Add a new Authoring Entity\n" +
@@ -165,6 +167,13 @@ public class Booking {
       return scan.nextInt();
    }
 
+   /**
+    * The addObject option that will prompt the user to add an entity to
+    * the database. This method uses other helper methods in order to add
+    * the desired entity to the database. The entity options are: Writing
+    * Group, Individual Author, Ad Hoc Team, Publisher, Book, and an option
+    * to add an existing Individual Author entity to an Ad Hoc Team entity.
+    */
    public void addObject(){
       int input = 0;
       boolean valid = false;
@@ -208,6 +217,12 @@ public class Booking {
       }
    }
 
+   /**
+    * Adds a Writing Group Entity to the database. Asks the user to
+    * insert the Writing Group entity's information and creates an entity
+    * with that information. Then persists the entity to the database.
+    * A helper method to the addObject() method.
+    */
    public void addGroupWriting(){
       System.out.print("Enter the name of the Writing Group: ");
       String groupName = scan.nextLine();
@@ -242,6 +257,12 @@ public class Booking {
       }
    }
 
+   /**
+    * Adds an Ad Hoc Team entity to the database. Prompts the user to enter
+    * the Ad Hoc Team entity's information. Then an Ad Hoc Team entity is
+    * created with that information and is then persisted to the database.
+    * Is a helper method to the addObject() method.
+    */
    public void addAdHocTeam(){
       System.out.print("Enter the name of the Ad Hoc Team: ");
       String teamName = scan.nextLine();
@@ -269,6 +290,12 @@ public class Booking {
       }
    }
 
+   /**
+    * Adds an Individual Author entity to the database. Prompts the user to enter
+    * the Individual Author entity's information. Then an Individual Author entity is
+    * created with that information and is then persisted to the database.
+    * Is a helper method to the addObject() method.
+    */
    public void addIndividualAuthor(){
       System.out.print("Enter the name of the Individual Author: ");
       String individualName = scan.nextLine();
@@ -296,6 +323,11 @@ public class Booking {
       }
    }
 
+   /**
+    * Adds an existing Individual Author entity to an existing Ad Hoc Team
+    * entity. Prompts the user to choose which individual author to add to
+    * a team. A helper method of the addObject() method.
+    */
    public void addTeamMember(){
 
       // get list of all teams
@@ -352,6 +384,12 @@ public class Booking {
       selectedTeam.add_individual_authors(selectedIndividual);
    }
 
+   /**
+    * Adds Publisher entity to the database. Prompts the user to enter
+    * the Publisher entity's information. Then a Publisher entity is
+    * created with that information and is then persisted to the database.
+    * Is a helper method to the addObject() method.
+    */
    public void addPublisher(){
       String pubName = "";
       boolean valid = false;
@@ -381,60 +419,12 @@ public class Booking {
       this.createEntity(publishers);
    }
 
-   public void listInfo(){
-      boolean valid = false;
-      int response = 0;
-      while(!valid){
-         System.out.println(  "Select which object information you would like to see.\n" +
-                 "1. Publishers\n" +
-                 "2. Books\n" +
-                 "3. Writing Group");
-         response = scan.nextInt();
-         scan.nextLine();
-         if (response > 0 && response < 4){
-            valid = true;
-         }
-      }
-      switch (response) {
-         case 1:
-            // print publishers
-            System.out.println("Publishers Info: ");
-            List <Publishers> publishers = this.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList();
-            if(publishers.size() == 0){
-               System.out.println("No current Writing Groups");
-            }else{
-               for (Publishers publisher : publishers){
-                  System.out.println(publisher.toString());
-               }
-            }
-            break;
-         case 2:
-            // print books
-            System.out.println("Books Info: ");
-            List <Books> books = this.entityManager.createNamedQuery("ReturnAllBooks", Books.class).getResultList();
-            if(books.size() == 0){
-               System.out.println("No current Books");
-            }else{
-               for (Books book : books){
-                  System.out.println(book.toString());
-               }
-            }
-            break;
-         case 3:
-            // print authoring entities
-            System.out.println("Writing Group Info: ");
-            List <Writing_group> writing_groups = this.entityManager.createNamedQuery("ReturnAllWritingGroups", Writing_group.class).getResultList();
-            if(writing_groups.size() == 0){
-               System.out.println("No current Writing Groups");
-            }else{
-               for (Writing_group writing_group : writing_groups){
-                  System.out.println(writing_group.toString());
-               }
-            }
-            break;
-      }
-   }
-
+   /**
+    * Adds a Book entity to the database. Prompts the user to enter
+    * the Book entity's information. Then a Book entity is created
+    * with that information and is then persisted to the database.
+    * Is a helper method to the addObject() method.
+    */
    public void addBook(){
       Scanner input = new Scanner(System.in);
       String title, name = null, entityEmail = null;
@@ -502,6 +492,68 @@ public class Booking {
       this.createEntity(book);
    }
 
+   /**
+    * Lists the info associated with the entity that the user wants to
+    * view. The user can choose to view the Publishers, Books, or Writing
+    * Groups entities.
+    */
+   public void listInfo(){
+      boolean valid = false;
+      int response = 0;
+      while(!valid){
+         System.out.println(  "Select which object information you would like to see.\n" +
+                 "1. Publishers\n" +
+                 "2. Books\n" +
+                 "3. Writing Group");
+         response = scan.nextInt();
+         scan.nextLine();
+         if (response > 0 && response < 4){
+            valid = true;
+         }
+      }
+      switch (response) {
+         case 1:
+            // print publishers
+            System.out.println("Publishers Info: ");
+            List <Publishers> publishers = this.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList();
+            if(publishers.size() == 0){
+               System.out.println("No current Writing Groups");
+            }else{
+               for (Publishers publisher : publishers){
+                  System.out.println(publisher.toString());
+               }
+            }
+            break;
+         case 2:
+            // print books
+            System.out.println("Books Info: ");
+            List <Books> books = this.entityManager.createNamedQuery("ReturnAllBooks", Books.class).getResultList();
+            if(books.size() == 0){
+               System.out.println("No current Books");
+            }else{
+               for (Books book : books){
+                  System.out.println(book.toString());
+               }
+            }
+            break;
+         case 3:
+            // print authoring entities
+            System.out.println("Writing Group Info: ");
+            List <Writing_group> writing_groups = this.entityManager.createNamedQuery("ReturnAllWritingGroups", Writing_group.class).getResultList();
+            if(writing_groups.size() == 0){
+               System.out.println("No current Writing Groups");
+            }else{
+               for (Writing_group writing_group : writing_groups){
+                  System.out.println(writing_group.toString());
+               }
+            }
+            break;
+      }
+   }
+
+   /**
+    * Removes an existing Book entity that the user specifies by the ISBN.
+    */
    public void removeBook(){
 
       List <Books> books = new ArrayList<>();
@@ -532,6 +584,11 @@ public class Booking {
       }
    }
 
+   /**
+    * Updates the Authoring Entity of a Book entity. Prompts the
+    * user which book they want to change and the authoring entity
+    * that the user wants to apply to that book.
+    */
    public void updateBook(){
       List <Books> books = new ArrayList<>();
       books = this.entityManager.createNamedQuery("ReturnAllBooks", Books.class).getResultList();
@@ -574,7 +631,15 @@ public class Booking {
       }
    }
 
-   public void listPrimaryKeys(EntityManagerFactory factory,List <Publishers> publishers, List <Books> books, Booking booking ){
+   /**
+    * Lists the all the primary keys of the Publishers, Books, or Authoring Entities
+    * tables depending on which table that the user wants to display. For Books, the
+    * ISBN and primary keys are displayed. For the Authoring Entities, the primary keys
+    * and type of Authoring Entity is displayed.
+    * @param factory       Provides instances of EntityManager for connecting to same database.
+    * @param booking       The entity manager of the Booking class to access database information.
+    */
+   public void listPrimaryKeys(EntityManagerFactory factory, Booking booking ){
       System.out.println("List the primary key of all the rows of:\n" +
               "1: Publishers\n" +
               "2: Books\n" +
@@ -585,16 +650,16 @@ public class Booking {
       switch (userInput){
          case 1:
             System.out.println("The Primary Keys of Publisher:\n");
-            for(Publishers pub : publishers){
+            for(Publishers pub : booking.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList()){
                Object publisherPK = factory.getPersistenceUnitUtil().getIdentifier(pub);
-               System.out.println(publisherPK);
+               System.out.println("Publisher name: " + publisherPK);
             }
             break;
          case 2:
             System.out.println("The Primary keys of Books:\n");
-            for(Books bookPK : books){
+            for(Books bookPK : booking.entityManager.createNamedQuery("ReturnAllBooks", Books.class).getResultList()){
                Object bookPKObj = factory.getPersistenceUnitUtil().getIdentifier(bookPK);
-               System.out.println(bookPKObj);
+               System.out.println("Book title: " + bookPK.getTitle() + ", ISBN: " + bookPKObj);
             }
             break;
          case 3:
@@ -602,13 +667,13 @@ public class Booking {
             for(Authoring_Entities auth_ent: booking.entityManager.createNamedQuery("ReturnAllAuthoringEntities", Authoring_Entities.class).getResultList()){
                Object AuthorPK = factory.getPersistenceUnitUtil().getIdentifier(auth_ent);
                if(auth_ent instanceof Writing_group){
-                  System.out.println("Authoring Entity Primary Key: " + AuthorPK + " Type: Writing Group");
+                  System.out.println("Email: " + AuthorPK + ", Type: Writing Group");
                }else if(auth_ent instanceof Individual_author){
-                  System.out.println("Authoring Entity Primary Key: " + AuthorPK + " Type: Individual Author");
+                  System.out.println("Email: " + AuthorPK + ", Type: Individual Author");
                }else if(auth_ent instanceof  Ad_hoc_teams){
-                  System.out.println("Authoring Entity Primary Key: " + AuthorPK + " Type: Ad Hoc Team");
+                  System.out.println("Email: " + AuthorPK + ", Type: Ad Hoc Team");
                }else
-                  System.out.println("Authoring Entity Primary Key: " + AuthorPK + " Type: Authoring Entity");
+                  System.out.println("Email: " + AuthorPK + ", Type: Authoring Entity");
             }
             break;
       }
