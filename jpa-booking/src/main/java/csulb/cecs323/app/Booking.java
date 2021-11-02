@@ -156,7 +156,7 @@ public class Booking {
     */
    public static int menu() {
       System.out.print("\nMenu:\n" +
-              "1: Add a new Authoring Entity\n" +
+              "1: Add a new object\n" +
               "2: List info \n" +
               "3: Remove a Book\n" +
               "4: Update a Book\n" +
@@ -178,7 +178,7 @@ public class Booking {
       int input = 0;
       boolean valid = false;
       while(!valid){
-         System.out.print("\nWhat type of Authoring Entity do you want to add:\n" +
+         System.out.print("\nWhat type of object do you want to add:\n" +
                  "1: Writing Group\n" +
                  "2: Individual Author\n" +
                  "3: Ad Hoc Team\n" +
@@ -245,6 +245,7 @@ public class Booking {
                   List<Writing_group> writing_groups = new ArrayList<>();
                   writing_groups.add(new Writing_group(inputEmail, groupName, headWriter, year));
                   this.createEntity(writing_groups);
+                  System.out.println("Writing group has been added.");
                   valid = true;
                }
             }
@@ -278,6 +279,7 @@ public class Booking {
                   List<Ad_hoc_teams> team = new ArrayList<>();
                   team.add(new Ad_hoc_teams(teamEmail, teamName, null));
                   this.createEntity(team);
+                  System.out.println("Team has been added.");
                   valid = true;
                }
             }
@@ -311,6 +313,7 @@ public class Booking {
                   List<Individual_author> individualAuthors = new ArrayList<>();
                   individualAuthors.add(new Individual_author(inputEmail, individualName, null));
                   this.createEntity(individualAuthors);
+                  System.out.println("Individual Author has been added.");
                   valid = true;
                }
             }
@@ -329,7 +332,7 @@ public class Booking {
     * a team. A helper method of the addObject() method.
     */
    public void addTeamMember(){
-
+      Scanner input = new Scanner(System.in);
       // get list of all teams
       List<Ad_hoc_teams> teams = this.entityManager.createNamedQuery("ReturnAllTeamInfo", Ad_hoc_teams.class).getResultList();
 
@@ -339,7 +342,7 @@ public class Booking {
       // print out list of teams
       System.out.print("\nList of teams: ");
       for (Ad_hoc_teams team : teams) {
-         System.out.println("Team Name: " + team.getName() + " Team Email: " + team.getEmail() +"\n");
+         System.out.println("Team Name: " + team.getName() + " Team Email: " + team.getEmail());
       }
       boolean valid = false;
       String inputTeam = "";
@@ -347,7 +350,7 @@ public class Booking {
       // get user input for team they want to add to
       while (!valid) {
          System.out.print("\nEnter the enter the email of the team you want to add a member to: ");
-         inputTeam = scan.nextLine();
+         inputTeam = input.nextLine();
          try {
             selectedTeam = entityManager.find(Ad_hoc_teams.class, inputTeam);
             valid = true;
@@ -373,7 +376,7 @@ public class Booking {
       // get user input for author they want to add
       while (!validIndividual) {
          System.out.print("Enter the enter the email of the Individual Author you want to add a to a team: ");
-         inputIndividual = scan.nextLine();
+         inputIndividual = input.nextLine();
          try {
             selectedIndividual = entityManager.find(Individual_author.class, inputIndividual);
             validIndividual = true;
@@ -382,6 +385,7 @@ public class Booking {
          }
       }
       selectedTeam.add_individual_authors(selectedIndividual);
+      System.out.println("Individual author has been added to team.");
    }
 
    /**
@@ -417,6 +421,7 @@ public class Booking {
       List<Publishers> publishers = new ArrayList<>();
       publishers.add(new Publishers(pubName, pubEmail, pubPhone));
       this.createEntity(publishers);
+      System.out.println("Publisher has been added.");
    }
 
    /**
@@ -490,6 +495,7 @@ public class Booking {
       List <Books> book = new ArrayList<>();
       book.add(new Books(ISBN, title, publishedYear, publisher, authEntity));
       this.createEntity(book);
+      System.out.println("Book has been added.");
    }
 
    /**
@@ -513,11 +519,11 @@ public class Booking {
       }
       switch (response) {
          case 1:
-            // print publishers
-            System.out.println("Publishers Info: ");
             List <Publishers> publishers = this.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList();
+            // print publishers
+            System.out.println("\nPublishers Info: ");
             if(publishers.size() == 0){
-               System.out.println("No current Writing Groups");
+               System.out.println("\nNo current Writing Groups");
             }else{
                for (Publishers publisher : publishers){
                   System.out.println(publisher.toString());
@@ -525,11 +531,11 @@ public class Booking {
             }
             break;
          case 2:
-            // print books
-            System.out.println("Books Info: ");
             List <Books> books = this.entityManager.createNamedQuery("ReturnAllBooks", Books.class).getResultList();
+            // print books
+            System.out.println("\nBooks Info: ");
             if(books.size() == 0){
-               System.out.println("No current Books");
+               System.out.println("\nNo current Books");
             }else{
                for (Books book : books){
                   System.out.println(book.toString());
@@ -537,11 +543,12 @@ public class Booking {
             }
             break;
          case 3:
-            // print authoring entities
-            System.out.println("Writing Group Info: ");
+
             List <Writing_group> writing_groups = this.entityManager.createNamedQuery("ReturnAllWritingGroups", Writing_group.class).getResultList();
+            // print authoring entities
+            System.out.println("\nWriting Group Info: ");
             if(writing_groups.size() == 0){
-               System.out.println("No current Writing Groups");
+               System.out.println("\nNo current Writing Groups");
             }else{
                for (Writing_group writing_group : writing_groups){
                   System.out.println(writing_group.toString());
@@ -560,7 +567,7 @@ public class Booking {
       books = this.entityManager.createNamedQuery("ReturnAllBooks", Books.class).getResultList();
 
       // show list of books
-      System.out.println("List of books:");
+      System.out.println("\nList of books:");
       for (Books book : books) {
          System.out.println(book.toString());
       }
@@ -577,6 +584,7 @@ public class Booking {
             // remove the user selection
             Books book = entityManager.find(Books.class, selection);
             this.entityManager.remove(book);
+            System.out.println("Book has been removed.");
             deleted = true;
          } catch (Exception e) {
             System.out.println("Invalid ISBN.");
@@ -598,7 +606,7 @@ public class Booking {
          String selection = "";
          try {
 
-            System.out.println("List of books:\n");
+            System.out.println("\nList of books:");
             for (Books book : books) {
                System.out.println(book.toString());
             }
@@ -611,6 +619,7 @@ public class Booking {
 
             // Show list of authoring entity
             List <Authoring_Entities> authoring_entities = this.entityManager.createNamedQuery("ReturnAllAuthoringEntities", Authoring_Entities.class).getResultList();
+            System.out.println("\nList of Authoring Entities:");
             for (Authoring_Entities auth_ent : authoring_entities){
                System.out.println(auth_ent.toString());
             }
@@ -621,6 +630,7 @@ public class Booking {
             try {
                Authoring_Entities newAuth = entityManager.find(Authoring_Entities.class, email);
                book.setAuthoringEntity(newAuth);
+               System.out.println("Book has been updated.");
                updated = true;
             } catch(Exception e) {
                System.out.println("Authoring entity does not exist.");
