@@ -18,7 +18,13 @@ import java.util.*;
         query = "SELECT * FROM BOOKS",
         resultClass = Books.class
 )
-
+@NamedNativeQuery(
+        name = "ReturnAllBookISBN",
+        query = "SELECT ISBN " +
+                "FROM BOOKS " +
+                "WHERE ISBN = ?",
+        resultClass = Books.class
+)
 public class Books {
     /**
      * A unique ID that helps identify a book.

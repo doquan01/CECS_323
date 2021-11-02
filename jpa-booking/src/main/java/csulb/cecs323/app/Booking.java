@@ -174,10 +174,12 @@ public class Booking {
                  "2: Individual Author\n" +
                  "3: Ad Hoc Team\n" +
                  "4: Add an Individual Author to an Ad Hoc Team\n" +
+                 "5: Publisher\n" +
+                 "6: Book\n" +
                  "Enter a numeric value: ");
          input = scan.nextInt();
          scan.nextLine();
-         if(input > 0 && input < 5){
+         if(input > 0 && input < 7){
             valid = true;
          }
       }
@@ -194,6 +196,12 @@ public class Booking {
             break;
          case 4:
             addTeamMember();
+            break;
+         case 5:
+            addPublisher();
+            break;
+         case 6:
+            addBook();
             break;
          default:
             System.out.println("Invalid Input");
@@ -324,8 +332,8 @@ public class Booking {
 
       // print list of all individual authors
       System.out.print("\nList of Individual Authors: ");
-      for (Individual_author a : author) {
-         System.out.println("Author Name: " + a.getName() + " Author Email: " + a.getEmail());
+      for (Individual_author auth : author) {
+         System.out.println("Author Name: " + auth.getName() + " Author Email: " + auth.getEmail());
       }
       boolean validIndividual = false;
       String inputIndividual = "";
@@ -342,6 +350,35 @@ public class Booking {
          }
       }
       selectedTeam.add_individual_authors(selectedIndividual);
+   }
+
+   public void addPublisher(){
+      String pubName = "";
+      boolean valid = false;
+      while (!valid) {
+         System.out.print("Enter the name of the Publisher: ");
+         pubName = scan.nextLine();
+         try{
+            List<Publishers> publishersNames = this.entityManager.createNamedQuery("ReturnAllPublisherNames", Publishers.class).setParameter(1, pubName).getResultList();
+            if(publishersNames.size() == 0) {
+               valid = true;
+            }
+            else{
+               System.out.println("Invalid Input.");
+            }
+         }catch(Exception e){
+            System.out.println("Invalid email");
+         }
+      }
+      System.out.print("Enter the email of the Publisher: ");
+      String pubEmail = scan.nextLine();
+
+      System.out.print("Enter the phone number of the Publisher: ");
+      String pubPhone = scan.nextLine();
+
+      List<Publishers> publishers = new ArrayList<>();
+      publishers.add(new Publishers(pubName, pubEmail, pubPhone));
+      this.createEntity(publishers);
    }
 
    public void listInfo(){
@@ -363,29 +400,106 @@ public class Booking {
             // print publishers
             System.out.println("Publishers Info: ");
             List <Publishers> publishers = this.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList();
-            for (Publishers publisher : publishers){
-               System.out.println(publisher.toString());
+            if(publishers.size() == 0){
+               System.out.println("No current Writing Groups");
+            }else{
+               for (Publishers publisher : publishers){
+                  System.out.println(publisher.toString());
+               }
             }
             break;
          case 2:
             // print books
             System.out.println("Books Info: ");
             List <Books> books = this.entityManager.createNamedQuery("ReturnAllBooks", Books.class).getResultList();
-            for (Books book : books){
-               System.out.println(book.toString());
+            if(books.size() == 0){
+               System.out.println("No current Books");
+            }else{
+               for (Books book : books){
+                  System.out.println(book.toString());
+               }
             }
             break;
          case 3:
             // print authoring entities
             System.out.println("Writing Group Info: ");
             List <Writing_group> writing_groups = this.entityManager.createNamedQuery("ReturnAllWritingGroups", Writing_group.class).getResultList();
-            for (Writing_group writing_group : writing_groups){
-               System.out.println(writing_group.toString());
+            if(writing_groups.size() == 0){
+               System.out.println("No current Writing Groups");
+            }else{
+               for (Writing_group writing_group : writing_groups){
+                  System.out.println(writing_group.toString());
+               }
             }
             break;
       }
+   }
 
+   public void addBook(){
+      Scanner input = new Scanner(System.in);
+      String title, name = null, entityEmail = null;
+      String ISBN = "";
+      int publishedYear;
 
+      Authoring_Entities authEntity = new Authoring_Entities();
+      Publishers publisher = new Publishers();
+
+      System.out.print("Enter book title: ");
+      title = input.nextLine();
+      boolean valid = false;
+      while(!valid) {
+         System.out.print("Enter ISBN: ");
+         ISBN = input.nextLine();
+         List<Books> books = this.entityManager.createNamedQuery("ReturnAllBookISBN", Books.class).setParameter(1, ISBN).getResultList();
+         if (books.size() == 0){
+            valid = true;
+         } else {
+            System.out.print("Duplicate ISBN. Try again.");
+         }
+      }
+      System.out.print("Enter the published year: ");
+      publishedYear = input.nextInt();
+      input.nextLine();
+
+      List <Publishers> publishers = this.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList();
+
+      valid = false;
+      while(!valid) {
+         System.out.println("Publisher options:");
+         for (Publishers pub : publishers) {
+            System.out.println(pub.toString());
+         }
+         System.out.print("Enter name of the publisher: ");
+         name = input.nextLine();
+         try{
+            publisher = entityManager.find(Publishers.class, name);
+            valid = true;
+         } catch (Exception e) {
+            System.out.println("Invalid Publisher name.");
+         }
+      }
+
+      List <Authoring_Entities> authoring_entities = this.entityManager.createNamedQuery("ReturnAllAuthoringEntities", Authoring_Entities.class).getResultList();
+
+      valid = false;
+      while(!valid) {
+         System.out.println("Authoring Entity Options: ");
+         for (Authoring_Entities authors : authoring_entities) {
+            System.out.println(authors.toString());
+         }
+         System.out.print("Enter email of authoring entity: ");
+         entityEmail = input.nextLine();
+         try{
+            authEntity = entityManager.find(Authoring_Entities.class, entityEmail);
+            valid = true;
+         } catch (Exception e) {
+            System.out.println("Invalid email.");
+         }
+      }
+
+      List <Books> book = new ArrayList<>();
+      book.add(new Books(ISBN, title, publishedYear, publisher, authEntity));
+      this.createEntity(book);
    }
 
    public void removeBook(){
@@ -471,27 +585,27 @@ public class Booking {
       switch (userInput){
          case 1:
             System.out.println("The Primary Keys of Publisher:\n");
-            for(Publishers p : publishers){
-               Object publisherPK = factory.getPersistenceUnitUtil().getIdentifier(p);
+            for(Publishers pub : publishers){
+               Object publisherPK = factory.getPersistenceUnitUtil().getIdentifier(pub);
                System.out.println(publisherPK);
             }
             break;
          case 2:
             System.out.println("The Primary keys of Books:\n");
-            for(Books b : books){
-               Object bookPK = factory.getPersistenceUnitUtil().getIdentifier(b);
-               System.out.println(bookPK);
+            for(Books bookPK : books){
+               Object bookPKObj = factory.getPersistenceUnitUtil().getIdentifier(bookPK);
+               System.out.println(bookPKObj);
             }
             break;
          case 3:
             System.out.println("The Primary keys of Authoring Entities\n");
-            for(Authoring_Entities a: booking.entityManager.createNamedQuery("ReturnAllAuthoringEntities", Authoring_Entities.class).getResultList()){
-               Object AuthorPK = factory.getPersistenceUnitUtil().getIdentifier(a);
-               if(a instanceof Writing_group){
+            for(Authoring_Entities auth_ent: booking.entityManager.createNamedQuery("ReturnAllAuthoringEntities", Authoring_Entities.class).getResultList()){
+               Object AuthorPK = factory.getPersistenceUnitUtil().getIdentifier(auth_ent);
+               if(auth_ent instanceof Writing_group){
                   System.out.println("Authoring Entity Primary Key: " + AuthorPK + " Type: Writing Group");
-               }else if(a instanceof Individual_author){
+               }else if(auth_ent instanceof Individual_author){
                   System.out.println("Authoring Entity Primary Key: " + AuthorPK + " Type: Individual Author");
-               }else if(a instanceof  Ad_hoc_teams){
+               }else if(auth_ent instanceof  Ad_hoc_teams){
                   System.out.println("Authoring Entity Primary Key: " + AuthorPK + " Type: Ad Hoc Team");
                }else
                   System.out.println("Authoring Entity Primary Key: " + AuthorPK + " Type: Authoring Entity");

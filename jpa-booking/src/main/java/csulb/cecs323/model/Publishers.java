@@ -13,6 +13,13 @@ import java.util.Objects;
         query = "SELECT * FROM Publishers",
         resultClass = Publishers.class
 )
+@NamedNativeQuery(
+        name = "ReturnAllPublisherNames",
+        query = "SELECT name " +
+                "FROM Publishers " +
+                "WHERE name = ?",
+        resultClass = Publishers.class
+)
 public class Publishers {
     /**
      * The name of the company or individual that prepares the books for sale. Limited to 80 characters.
