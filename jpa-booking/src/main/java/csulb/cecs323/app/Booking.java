@@ -1,39 +1,21 @@
-/*
- * Licensed under the Academic Free License (AFL 3.0).
- *     http://opensource.org/licenses/AFL-3.0
+/**
+ * A class that creates, adds, edits, and updates relevant book information.
+ * Homework Assignment: JPA Booking
  *
- *  This code is distributed to CSULB students in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE, other than educational.
- *
- *  2018 Alvaro Monge <alvaro.monge@csulb.edu>
- *
+ * @author John Apale
+ * @author Matthew Chung
+ * @author Quan Do
+ * @version 1.0 11/02/2021
  */
 
 package csulb.cecs323.app;
 
-// Import all of the entity classes that we have written for this application.
-import csulb.cecs323.model.*;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Logger;
+import javax.persistence.*;
 
-/**
- * A simple application to demonstrate how to persist an object in JPA.
- * <p>
- * This is for demonstration and educational purposes only.
- * </p>
- * <p>
- *     Originally provided by Dr. Alvaro Monge of CSULB, and subsequently modified by Dave Brown.
- * </p>
- */
 public class Booking {
+
    /**
     * Declaration of the EntityManager type variable called entityManager.
     * Allow applications to manage and search for entities.
@@ -61,7 +43,7 @@ public class Booking {
 
    public static void main(String[] args) {
       LOGGER.fine("Creating EntityManagerFactory and EntityManager");
-      EntityManagerFactory factory = Persistence.createEntityManagerFactory("Booking");
+      EntityManagerFactory factory = Persistence.createEntityManagerFactory("Main");
       EntityManager manager = factory.createEntityManager();
 
       // Create an instance of Books
@@ -170,4 +152,3 @@ public class Booking {
       }
    } // End of createEntity member method
 }// End of Main class
-

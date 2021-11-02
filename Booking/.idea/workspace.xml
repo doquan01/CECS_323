@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3425094-6414-4704-b851-36b49ae34162" name="Changes" comment="" />
+    <list default="true" id="b3425094-6414-4704-b851-36b49ae34162" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../jpa-booking/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../jpa-booking/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jpa-booking/src/main/java/csulb/cecs323/app/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/../jpa-booking/src/main/java/csulb/cecs323/app/Booking.java" afterDir="false" />
+    </list>
     <list id="895a1939-0d7a-432e-b9bb-c54057487214" name="Changes by Quan_Do" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +41,7 @@
     </option>
   </component>
   <component name="ProjectId" id="20KwhsIvRtVEoGNzwZFHEFxQfqY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -78,6 +82,7 @@
       <option name="presentableId" value="Default" />
       <updated>1635806709779</updated>
       <workItem from="1635806715482" duration="4404000" />
+      <workItem from="1635815064186" duration="6000" />
     </task>
     <servers />
   </component>
