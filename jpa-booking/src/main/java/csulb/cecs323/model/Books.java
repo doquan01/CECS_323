@@ -12,6 +12,12 @@ import java.util.Objects;
         @UniqueConstraint(columnNames =
                 {"title", "authoring_entity_name"})})
 
+@NamedNativeQuery(
+        name = "ReturnAllBooks",
+        query = "SELECT * FROM BOOKS",
+        resultClass = Books.class
+)
+
 public class Books {
     /**
      * A unique ID that helps identify a book.

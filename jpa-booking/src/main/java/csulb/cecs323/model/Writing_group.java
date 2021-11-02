@@ -8,6 +8,15 @@ import java.util.*;
  */
 @Entity
 @DiscriminatorValue("Writing Groups")
+
+@NamedNativeQuery(
+        name = "ReturnAllWritingNames",
+        query = "SELECT name " +
+                "FROM   Authoring_Entities " +
+                "WHERE authoring_entity_type = 'Writing Groups'",
+        resultClass = Writing_group.class
+)
+
 public class Writing_group extends Authoring_Entities {
 
     /**
@@ -29,7 +38,7 @@ public class Writing_group extends Authoring_Entities {
      * @param headWriter    The name of the person that is the leader of the group.
      * @param year_formed   The year that the group was formed.
      */
-    public Writing_group(String name, String email, String headWriter, int year_formed) {
+    public Writing_group(String email, String name, String headWriter, int year_formed) {
         super(name, email);
         this.setHead_writer(headWriter);
         this.setYear_formed(year_formed);

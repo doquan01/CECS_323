@@ -9,6 +9,22 @@ import java.util.*;
  */
 @Entity
 @DiscriminatorValue("Ad Hoc Teams")
+
+@NamedNativeQuery(
+        name = "ReturnAllTeamNames",
+        query = "SELECT name " +
+                "FROM   Authoring_Entities " +
+                "WHERE authoring_entity_type = 'Ad Hoc Teams'",
+        resultClass = Ad_hoc_teams.class
+)
+@NamedNativeQuery(
+        name = "ReturnAllTeamInfo",
+        query = "SELECT * " +
+                "FROM   Authoring_Entities " +
+                "WHERE authoring_entity_type = 'Ad Hoc Teams'",
+        resultClass = Ad_hoc_teams.class
+)
+
 public class Ad_hoc_teams extends Authoring_Entities{
     /**
      * The list of individuals that are a part of the team.
