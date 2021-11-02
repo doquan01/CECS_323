@@ -22,6 +22,7 @@ import java.util.Objects;
                 "WHERE email = ?",
         resultClass = Authoring_Entities.class
 )
+
 public class Authoring_Entities {
 
     /**
@@ -36,6 +37,8 @@ public class Authoring_Entities {
      */
     @Column(length = 80, nullable = false)
     private String name;
+
+
 
     /**
      * The constructor for the Autoring_entities class. Creates an Authoring_entities object.

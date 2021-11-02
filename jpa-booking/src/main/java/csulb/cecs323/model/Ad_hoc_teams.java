@@ -24,7 +24,13 @@ import java.util.*;
                 "WHERE authoring_entity_type = 'Ad Hoc Teams'",
         resultClass = Ad_hoc_teams.class
 )
-
+@NamedNativeQuery(
+        name = "ReturnAllTeamEmail",
+        query = "SELECT email " +
+                "FROM   Authoring_Entities " +
+                "WHERE authoring_entity_type = 'Ad Hoc Teams' and email = ?",
+        resultClass = Individual_author.class
+)
 public class Ad_hoc_teams extends Authoring_Entities{
     /**
      * The list of individuals that are a part of the team.
@@ -86,7 +92,7 @@ public class Ad_hoc_teams extends Authoring_Entities{
 
     @Override
     public String toString() {
-        return "individual_authors: " + this.getIndividual_authors();
+        return "Ad Hoc Team Name: " + this.getName() + " Ad Hoc Team Email: " + this.getEmail();
     }
 
     @Override

@@ -8,6 +8,13 @@ import java.util.*;
  */
 @Entity
 @DiscriminatorValue("Writing Groups")
+@NamedNativeQuery(
+        name = "ReturnAllWritingGroups",
+        query = "SELECT * " +
+                "FROM   Authoring_Entities " +
+                "WHERE authoring_entity_type = 'Writing Groups'",
+        resultClass = Writing_group.class
+)
 
 @NamedNativeQuery(
         name = "ReturnAllWritingNames",
@@ -17,6 +24,13 @@ import java.util.*;
         resultClass = Writing_group.class
 )
 
+@NamedNativeQuery(
+        name = "ReturnAllGroupEmail",
+        query = "SELECT email " +
+                "FROM   Authoring_Entities " +
+                "WHERE authoring_entity_type = 'Writing Groups' and email = ?",
+        resultClass = Individual_author.class
+)
 public class Writing_group extends Authoring_Entities {
 
     /**
@@ -68,7 +82,9 @@ public class Writing_group extends Authoring_Entities {
 
     @Override
     public String toString() {
-        return "head_writer: " + head_writer +
+        return  "team_name: " + getName() +
+                " team_email: " + getEmail() +
+                " head_writer: " + head_writer +
                 ", year_formed: " + year_formed;
     }
 
