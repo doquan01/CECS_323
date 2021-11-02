@@ -240,14 +240,17 @@ public class Booking {
          String inputEmail = scan.nextLine();
          try{
             if(inputEmail.contains("@") && inputEmail.contains(".")){
-               List<Writing_group> groupEmail = this.entityManager.createNamedQuery("ReturnAllIndividualEmail", Writing_group.class).setParameter(1, inputEmail).getResultList();
+//               List<Writing_group> groupEmail = this.entityManager.createNamedQuery("ReturnAllGroupEmail", Writing_group.class).setParameter(1, inputEmail).getResultList();
+               List<Authoring_Entities> authEmail = this.entityManager.createNamedQuery("ReturnAllEmails", Authoring_Entities.class).setParameter(1, inputEmail).getResultList();
                //Validate Writing Group
-               if(groupEmail.size() == 0) {
+               if(authEmail.size() == 0) {
                   List<Writing_group> writing_groups = new ArrayList<>();
                   writing_groups.add(new Writing_group(inputEmail, groupName, headWriter, year));
                   this.createEntity(writing_groups);
                   System.out.println("Writing group has been added.");
                   valid = true;
+               }else{
+                  System.out.println("Invalid Email");
                }
             }
             else{
@@ -275,13 +278,17 @@ public class Booking {
          String teamEmail = scan.nextLine();
          try{
             if(teamEmail.contains("@") && teamEmail.contains(".")){
-               List<Ad_hoc_teams> adHocTeamsEmail = this.entityManager.createNamedQuery("ReturnAllTeamEmail", Ad_hoc_teams.class).setParameter(1, teamEmail).getResultList();
-               if(adHocTeamsEmail.size() == 0) { //Validate Ad Hoc Team
+//               List<Ad_hoc_teams> adHocTeamsEmail = this.entityManager.createNamedQuery("ReturnAllTeamEmail", Ad_hoc_teams.class).setParameter(1, teamEmail).getResultList();
+               List<Authoring_Entities> authEmail = this.entityManager.createNamedQuery("ReturnAllEmails", Authoring_Entities.class).setParameter(1, teamEmail).getResultList();
+               if(authEmail.size() == 0) { //Validate Ad Hoc Team
                   List<Ad_hoc_teams> team = new ArrayList<>();
                   team.add(new Ad_hoc_teams(teamEmail, teamName, null));
                   this.createEntity(team);
                   System.out.println("Team has been added.");
                   valid = true;
+               }
+               else{
+                  System.out.println("Invalid Email");
                }
             }
             else{
@@ -309,13 +316,17 @@ public class Booking {
          String inputEmail = scan.nextLine();
          try{
             if(inputEmail.contains("@") && inputEmail.contains(".")){
-               List<Individual_author> individualEmail = this.entityManager.createNamedQuery("ReturnAllIndividualEmail", Individual_author.class).setParameter(1, inputEmail).getResultList();
-               if(individualEmail.size() == 0) { //Validate Individual Author
+//               List<Individual_author> individualEmail = this.entityManager.createNamedQuery("ReturnAllIndividualEmail", Individual_author.class).setParameter(1, inputEmail).getResultList();
+               List<Authoring_Entities> authEmail = this.entityManager.createNamedQuery("ReturnAllEmails", Authoring_Entities.class).setParameter(1, inputEmail ).getResultList();
+               if(authEmail.size() == 0) { //Validate Individual Author
                   List<Individual_author> individualAuthors = new ArrayList<>();
                   individualAuthors.add(new Individual_author(inputEmail, individualName, null));
                   this.createEntity(individualAuthors);
                   System.out.println("Individual Author has been added.");
                   valid = true;
+               }
+               else{
+                  System.out.println("Invalid Email");
                }
             }
             else{
@@ -353,8 +364,13 @@ public class Booking {
          System.out.print("\nEnter the enter the email of the team you want to add a member to: ");
          inputTeam = input.nextLine();
          try {
-            selectedTeam = entityManager.find(Ad_hoc_teams.class, inputTeam); //Validate Ad Hoc Team
-            valid = true;
+            List<Ad_hoc_teams> adHocTeamsEmail = this.entityManager.createNamedQuery("ReturnAllTeamEmail", Ad_hoc_teams.class).setParameter(1, inputTeam).getResultList();
+            if(adHocTeamsEmail.size() != 0) { //Validate Ad Hoc Team
+               selectedTeam = entityManager.find(Ad_hoc_teams.class, inputTeam); //Validate Ad Hoc Team
+               valid = true;
+            }else{
+               System.out.println("Invalid team.");
+            }
          } catch (Exception e) {
             System.out.print("\nTeam does not exists.");
          }
@@ -379,8 +395,13 @@ public class Booking {
          System.out.print("Enter the enter the email of the Individual Author you want to add a to a team: ");
          inputIndividual = input.nextLine();
          try {
-            selectedIndividual = entityManager.find(Individual_author.class, inputIndividual); //Validate Individual Author input
-            validIndividual = true;
+            List<Individual_author> individualEmail = this.entityManager.createNamedQuery("ReturnAllIndividualEmail", Individual_author.class).setParameter(1, inputIndividual).getResultList();
+            if(individualEmail.size() != 0) { //Validate Individual Author
+               selectedIndividual = entityManager.find(Individual_author.class, inputIndividual); //Validate Individual Author input
+               validIndividual = true;
+            }else{
+               System.out.println("Invalid Author.");
+            }
          } catch (Exception e) {
             System.out.println("Author does not exists.");
          }
@@ -468,8 +489,13 @@ public class Booking {
          System.out.print("Enter name of the publisher: ");
          name = input.nextLine();
          try{
-            publisher = entityManager.find(Publishers.class, name); //Validate Publisher
-            valid = true;
+            List<Publishers> publishersNames = this.entityManager.createNamedQuery("ReturnAllPublisherNames", Publishers.class).setParameter(1, name).getResultList();
+            if(publishersNames.size() != 0) { //Validate no duplicate publisher
+               publisher = entityManager.find(Publishers.class, name); //Validate Publisher
+               valid = true;
+            }else{
+               System.out.println("Invalid Publisher.");
+            }
          } catch (Exception e) {
             System.out.println("Invalid Publisher name.");
          }
@@ -486,8 +512,13 @@ public class Booking {
          System.out.print("Enter email of authoring entity: ");
          entityEmail = input.nextLine();
          try{
-            authEntity = entityManager.find(Authoring_Entities.class, entityEmail); //Validate Authoring Entity
-            valid = true;
+            List<Authoring_Entities> authEmail = this.entityManager.createNamedQuery("ReturnAllEmails", Authoring_Entities.class).setParameter(1, entityEmail).getResultList();
+            if(authEmail.size() != 0) {//Validate Authoring Entity
+               authEntity = entityManager.find(Authoring_Entities.class, entityEmail); //Validate Authoring Entity
+               valid = true;
+            }else{
+               System.out.println("Invalid Author");
+            }
          } catch (Exception e) {
             System.out.println("Invalid email.");
          }
@@ -599,6 +630,7 @@ public class Booking {
     * that the user wants to apply to that book.
     */
    public void updateBook(){
+      Books book = null;
       List <Books> books = new ArrayList<>();
       books = this.entityManager.createNamedQuery("ReturnAllBooks", Books.class).getResultList();
       boolean updated = false;
@@ -606,18 +638,26 @@ public class Booking {
          Scanner input = new Scanner(System.in);
          String selection = "";
          try {
+            boolean truISBN = false;
+            while(!truISBN){
+               System.out.println("\nList of books:");
+               for (Books bookList : books) {
+                  System.out.println(bookList.toString());
+               }
+               System.out.print("\nEnter the ISBN of the book you would like to update or 1 to cancel: ");
+               selection = input.nextLine();
+               if(selection.equals("1")){
+                  updated = true;
+               }
 
-            System.out.println("\nList of books:");
-            for (Books book : books) {
-               System.out.println(book.toString());
+               List<Books> booksISBN = this.entityManager.createNamedQuery("ReturnAllBookISBN", Books.class).setParameter(1, selection).getResultList();
+               if (booksISBN.size() != 0) { //Validate ISBN, noduplicate
+                  book = entityManager.find(Books.class, selection); //ISBN validation
+                  truISBN = true;
+               }else{
+                  System.out.println("Invalid ISBN.");
+               }
             }
-            System.out.print("\nEnter the ISBN of the book you would like to update or 1 to cancel: ");
-            selection = input.nextLine();
-            if(selection.equals("1")){
-               updated = true;
-            }
-            Books book = entityManager.find(Books.class, selection); //ISBN validation
-
             // Show list of authoring entity
             List <Authoring_Entities> authoring_entities = this.entityManager.createNamedQuery("ReturnAllAuthoringEntities", Authoring_Entities.class).getResultList();
             System.out.println("\nList of Authoring Entities:");
@@ -630,6 +670,7 @@ public class Booking {
 
             try {
                Authoring_Entities newAuth = entityManager.find(Authoring_Entities.class, email); //Authoring Entity Validation
+               assert book != null;
                book.setAuthoringEntity(newAuth);
                System.out.println("Book has been updated.");
                updated = true;

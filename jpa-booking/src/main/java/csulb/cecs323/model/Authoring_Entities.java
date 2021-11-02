@@ -17,7 +17,7 @@ import java.util.Objects;
 )
 @NamedNativeQuery(
         name = "ReturnAllEmails",
-        query = "SELECT email " +
+        query = "SELECT * " +
                 "FROM Authoring_Entities " +
                 "WHERE email = ?",
         resultClass = Authoring_Entities.class
