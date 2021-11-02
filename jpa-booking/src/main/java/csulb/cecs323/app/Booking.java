@@ -43,7 +43,7 @@ public class Booking {
 
    public static void main(String[] args) {
       LOGGER.fine("Creating EntityManagerFactory and EntityManager");
-      EntityManagerFactory factory = Persistence.createEntityManagerFactory("Main");
+      EntityManagerFactory factory = Persistence.createEntityManagerFactory("Booking");
       EntityManager manager = factory.createEntityManager();
 
       // Create an instance of Books
