@@ -241,6 +241,7 @@ public class Booking {
          try{
             if(inputEmail.contains("@") && inputEmail.contains(".")){
                List<Writing_group> groupEmail = this.entityManager.createNamedQuery("ReturnAllIndividualEmail", Writing_group.class).setParameter(1, inputEmail).getResultList();
+               //Validate Writing Group
                if(groupEmail.size() == 0) {
                   List<Writing_group> writing_groups = new ArrayList<>();
                   writing_groups.add(new Writing_group(inputEmail, groupName, headWriter, year));
@@ -275,7 +276,7 @@ public class Booking {
          try{
             if(teamEmail.contains("@") && teamEmail.contains(".")){
                List<Ad_hoc_teams> adHocTeamsEmail = this.entityManager.createNamedQuery("ReturnAllTeamEmail", Ad_hoc_teams.class).setParameter(1, teamEmail).getResultList();
-               if(adHocTeamsEmail.size() == 0) {
+               if(adHocTeamsEmail.size() == 0) { //Validate Ad Hoc Team
                   List<Ad_hoc_teams> team = new ArrayList<>();
                   team.add(new Ad_hoc_teams(teamEmail, teamName, null));
                   this.createEntity(team);
@@ -309,7 +310,7 @@ public class Booking {
          try{
             if(inputEmail.contains("@") && inputEmail.contains(".")){
                List<Individual_author> individualEmail = this.entityManager.createNamedQuery("ReturnAllIndividualEmail", Individual_author.class).setParameter(1, inputEmail).getResultList();
-               if(individualEmail.size() == 0) {
+               if(individualEmail.size() == 0) { //Validate Individual Author
                   List<Individual_author> individualAuthors = new ArrayList<>();
                   individualAuthors.add(new Individual_author(inputEmail, individualName, null));
                   this.createEntity(individualAuthors);
@@ -352,7 +353,7 @@ public class Booking {
          System.out.print("\nEnter the enter the email of the team you want to add a member to: ");
          inputTeam = input.nextLine();
          try {
-            selectedTeam = entityManager.find(Ad_hoc_teams.class, inputTeam);
+            selectedTeam = entityManager.find(Ad_hoc_teams.class, inputTeam); //Validate Ad Hoc Team
             valid = true;
          } catch (Exception e) {
             System.out.print("\nTeam does not exists.");
@@ -378,10 +379,10 @@ public class Booking {
          System.out.print("Enter the enter the email of the Individual Author you want to add a to a team: ");
          inputIndividual = input.nextLine();
          try {
-            selectedIndividual = entityManager.find(Individual_author.class, inputIndividual);
+            selectedIndividual = entityManager.find(Individual_author.class, inputIndividual); //Validate Individual Author input
             validIndividual = true;
          } catch (Exception e) {
-            System.out.println("Team does not exists.");
+            System.out.println("Author does not exists.");
          }
       }
       selectedTeam.add_individual_authors(selectedIndividual);
@@ -402,14 +403,14 @@ public class Booking {
          pubName = scan.nextLine();
          try{
             List<Publishers> publishersNames = this.entityManager.createNamedQuery("ReturnAllPublisherNames", Publishers.class).setParameter(1, pubName).getResultList();
-            if(publishersNames.size() == 0) {
+            if(publishersNames.size() == 0) { //Validate no duplicate publisher
                valid = true;
             }
             else{
                System.out.println("Invalid Input.");
             }
          }catch(Exception e){
-            System.out.println("Invalid email");
+            System.out.println("Invalid Publisher");
          }
       }
       System.out.print("Enter the email of the Publisher: ");
@@ -446,7 +447,7 @@ public class Booking {
          System.out.print("Enter ISBN: ");
          ISBN = input.nextLine();
          List<Books> books = this.entityManager.createNamedQuery("ReturnAllBookISBN", Books.class).setParameter(1, ISBN).getResultList();
-         if (books.size() == 0){
+         if (books.size() == 0){ //Validate ISBN, noduplicate
             valid = true;
          } else {
             System.out.print("Duplicate ISBN. Try again.");
@@ -467,7 +468,7 @@ public class Booking {
          System.out.print("Enter name of the publisher: ");
          name = input.nextLine();
          try{
-            publisher = entityManager.find(Publishers.class, name);
+            publisher = entityManager.find(Publishers.class, name); //Validate Publisher
             valid = true;
          } catch (Exception e) {
             System.out.println("Invalid Publisher name.");
@@ -485,7 +486,7 @@ public class Booking {
          System.out.print("Enter email of authoring entity: ");
          entityEmail = input.nextLine();
          try{
-            authEntity = entityManager.find(Authoring_Entities.class, entityEmail);
+            authEntity = entityManager.find(Authoring_Entities.class, entityEmail); //Validate Authoring Entity
             valid = true;
          } catch (Exception e) {
             System.out.println("Invalid email.");
@@ -582,7 +583,7 @@ public class Booking {
          }
          try {
             // remove the user selection
-            Books book = entityManager.find(Books.class, selection);
+            Books book = entityManager.find(Books.class, selection); //ISBN Validation
             this.entityManager.remove(book);
             System.out.println("Book has been removed.");
             deleted = true;
@@ -615,7 +616,7 @@ public class Booking {
             if(selection.equals("1")){
                updated = true;
             }
-            Books book = entityManager.find(Books.class, selection);
+            Books book = entityManager.find(Books.class, selection); //ISBN validation
 
             // Show list of authoring entity
             List <Authoring_Entities> authoring_entities = this.entityManager.createNamedQuery("ReturnAllAuthoringEntities", Authoring_Entities.class).getResultList();
@@ -628,7 +629,7 @@ public class Booking {
             String email = input.nextLine();
 
             try {
-               Authoring_Entities newAuth = entityManager.find(Authoring_Entities.class, email);
+               Authoring_Entities newAuth = entityManager.find(Authoring_Entities.class, email); //Authoring Entity Validation
                book.setAuthoringEntity(newAuth);
                System.out.println("Book has been updated.");
                updated = true;
