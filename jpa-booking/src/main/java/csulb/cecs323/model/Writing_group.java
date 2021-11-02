@@ -53,7 +53,7 @@ public class Writing_group extends Authoring_Entities {
      * @param year_formed   The year that the group was formed.
      */
     public Writing_group(String email, String name, String headWriter, int year_formed) {
-        super(name, email);
+        super(email, name);
         this.setHead_writer(headWriter);
         this.setYear_formed(year_formed);
     }
@@ -82,10 +82,10 @@ public class Writing_group extends Authoring_Entities {
 
     @Override
     public String toString() {
-        return  "team_name: " + getName() +
-                " team_email: " + getEmail() +
-                " head_writer: " + head_writer +
-                ", year_formed: " + year_formed;
+        return  "team_name: " + this.getName() +
+                " team_email: " + this.getEmail() +
+                " head_writer: " + this.getHead_writer() +
+                ", year_formed: " + this.getYear_formed();
     }
 
     @Override
