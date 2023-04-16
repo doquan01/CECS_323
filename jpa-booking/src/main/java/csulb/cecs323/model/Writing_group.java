@@ -8,29 +8,6 @@ import java.util.*;
  */
 @Entity
 @DiscriminatorValue("Writing Groups")
-@NamedNativeQuery(
-        name = "ReturnAllWritingGroups",
-        query = "SELECT * " +
-                "FROM   Authoring_Entities " +
-                "WHERE authoring_entity_type = 'Writing Groups'",
-        resultClass = Writing_group.class
-)
-
-@NamedNativeQuery(
-        name = "ReturnAllWritingNames",
-        query = "SELECT name " +
-                "FROM   Authoring_Entities " +
-                "WHERE authoring_entity_type = 'Writing Groups'",
-        resultClass = Writing_group.class
-)
-
-@NamedNativeQuery(
-        name = "ReturnAllGroupEmail",
-        query = "SELECT email " +
-                "FROM   Authoring_Entities " +
-                "WHERE authoring_entity_type = 'Writing Groups' and email = ?",
-        resultClass = Individual_author.class
-)
 public class Writing_group extends Authoring_Entities {
 
     /**
@@ -52,8 +29,8 @@ public class Writing_group extends Authoring_Entities {
      * @param headWriter    The name of the person that is the leader of the group.
      * @param year_formed   The year that the group was formed.
      */
-    public Writing_group(String email, String name, String headWriter, int year_formed) {
-        super(email, name);
+    public Writing_group(String name, String email, String headWriter, int year_formed) {
+        super(name, email);
         this.setHead_writer(headWriter);
         this.setYear_formed(year_formed);
     }
@@ -82,10 +59,8 @@ public class Writing_group extends Authoring_Entities {
 
     @Override
     public String toString() {
-        return  "team_name: " + this.getName() +
-                " team_email: " + this.getEmail() +
-                " head_writer: " + this.getHead_writer() +
-                ", year_formed: " + this.getYear_formed();
+        return "head_writer: " + head_writer +
+                ", year_formed: " + year_formed;
     }
 
     @Override

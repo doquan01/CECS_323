@@ -8,30 +8,6 @@ import java.util.*;
  */
 @Entity
 @DiscriminatorValue("Individual Authors")
-
-@NamedNativeQuery(
-        name = "ReturnAllIndividualName",
-        query = "SELECT name " +
-                "FROM   Authoring_Entities " +
-                "WHERE authoring_entity_type = 'Individual Authors'",
-        resultClass = Individual_author.class
-)
-
-@NamedNativeQuery(
-        name = "ReturnAllIndividualInfo",
-        query = "SELECT * " +
-                "FROM   Authoring_Entities " +
-                "WHERE authoring_entity_type = 'Individual Authors'",
-        resultClass = Individual_author.class
-)
-
-@NamedNativeQuery(
-        name = "ReturnAllIndividualEmail",
-        query = "SELECT email " +
-                "FROM   Authoring_Entities " +
-                "WHERE authoring_entity_type = 'Individual Authors' and email = ?",
-        resultClass = Individual_author.class
-)
 public class Individual_author extends Authoring_Entities{
     /**
      * A team of random people that work together on writing a book.
@@ -89,7 +65,7 @@ public class Individual_author extends Authoring_Entities{
 
     @Override
     public String toString() {
-        return "Individual Author Name: " + this.getName() + " Individual Author Email: " + this.getEmail();
+        return "ad_hoc_teams=" + this.getAd_hoc_teams();
     }
 
     @Override

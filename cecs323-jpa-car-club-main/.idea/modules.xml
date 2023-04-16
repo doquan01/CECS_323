@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cecs323-jpa-car-club-main/cecs323-jpa-CarClub.iml" filepath="$PROJECT_DIR$/cecs323-jpa-car-club-main/cecs323-jpa-CarClub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cecs323-jpa-car-club-main.iml" filepath="$PROJECT_DIR$/.idea/cecs323-jpa-car-club-main.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/CustomerOrders-master/src/main/java/csulb/cecs323/model/Customers.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/CustomerOrders-master/src/main/java/csulb/cecs323/model/Products.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/CustomerOrders-master/src/main/resources/sql/seed-data.sql" dialect="GenericSQL" />
+  </component>
+</project>

@@ -1,3 +1,5 @@
+set schema APP;
+
 create table AUTHORING_ENTITIES
 (
     EMAIL VARCHAR(30) not null
